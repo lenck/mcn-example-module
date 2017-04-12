@@ -6,9 +6,6 @@ if exist(last_args_path, 'file')
   opts = {load(last_args_path)};
 end
 
-% select relevant options from original compilation
-opts = selectCompileOpts(opts) ;
-
 vl_compilenn(opts{:}, varargin{:}, 'preCompileFn', @preCompileFn);
 end
 
@@ -46,21 +43,4 @@ lib_src{end+1} = fullfile(root,'src','bits','impl','normalize_cpu.cpp') ;
 if opts.enableGpu
   lib_src{end+1} = fullfile(root,'src','bits','impl','normalize_gpu.cu') ;
 end
-end
-
-% -------------------------------------
-function opts = selectCompileOpts(opts)
-% -------------------------------------
-keep = {'enableGpu', 'enableImreadJpeg', 'enableCudnn', 'enableDouble', ...
-        'imageLibrary', 'imageLibraryCompileFlags', ...
-        'imageLibraryLinkFlags', 'verbose', 'debug', 'cudaMethod', ...
-        'cudaRoot', 'cudaArch', 'defCudaArch', 'cudnnRoot', 'preCompileFn'} ;
-s = opts{1} ;
-f = fieldnames(s) ;
-for i = 1:numel(f)
-  if ~ismember(f{i}, keep)
-    s = rmfield(s, f{i}) ;
-  end
-end
-opts = {s} ;
 end
