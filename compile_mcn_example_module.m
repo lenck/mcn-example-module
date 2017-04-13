@@ -10,7 +10,7 @@ vl_compilenn(opts{:}, varargin{:}, 'preCompileFn', @preCompileFn);
 end
 
 function [opts, mex_src, lib_src, flags] = preCompileFn(opts, mex_src, lib_src, flags)
-root = fileparts(mfilename('fullpath')) ;
+root = fullfile(fileparts(mfilename('fullpath')), 'matlab');
 mcn_root = vl_rootnn() ;
 
 % Build inside the module path
